@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "syncDB": "sequelize-auto -o \"./models\" -d tagexpress_admin -h localhost -u root -p 3306 -e mysql"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +20,11 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
     "sequelize": "^6.16.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "sequelize-auto": "^0.8.8"
   }
 }
