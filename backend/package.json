@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "syncDB": "sequelize-auto -o \"./models\" -d tagexpress_admin -h localhost -u root -p 3306 -e mysql"
+    "syncDB": "sequelize-auto -o \"./models\" -d rikuna -h localhost -u root -p 3306 -e mysql"
   },
   "keywords": [],
   "author": "",

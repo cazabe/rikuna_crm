@@ -4,8 +4,8 @@ if (theEnv.error) {
 }
 
 const { sequelize } = require('./models/sequelize');
-//var initModels = require("./models/init-models");   // UNCOMMENT THIS LINES WHEN MODELS 
-//initModels(sequelize); //HAVE BEEN GENERATED WITH sequelize-auto
+var initModels = require("./models/init-models");   // UNCOMMENT THIS LINES WHEN MODELS 
+initModels(sequelize); //HAVE BEEN GENERATED WITH sequelize-auto
 
 const express = require('express');
 const cors = require('cors');
