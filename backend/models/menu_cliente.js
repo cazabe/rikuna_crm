@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'configuracion_productos',
+        model: 'configuracion_menu',
         key: 'configuracion_id'
       }
     },

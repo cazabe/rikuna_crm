@@ -1,9 +1,8 @@
 const express = require('express');
 const route = express.Router();
-const { Createrole } = require('../controllers/auth/authCtrl');
+const { Login } = require('../controllers/auth/authCtrl');
 
-route.post('/api/register',);
-route.post('/api/role', Createrole);
+route.post('/api/login', Login);
 
 
 

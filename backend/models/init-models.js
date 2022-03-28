@@ -1,5 +1,6 @@
 var DataTypes = require("sequelize").DataTypes;
-var _configuracion_productos = require("./configuracion_productos");
+var _configuracion_menu = require("./configuracion_menu");
+var _ingreso = require("./ingreso");
 var _inventario = require("./inventario");
 var _menu = require("./menu");
 var _menu_cliente = require("./menu_cliente");
@@ -8,7 +9,8 @@ var _rol = require("./rol");
 var _users = require("./users");
 
 function initModels(sequelize) {
-  var configuracion_productos = _configuracion_productos(sequelize, DataTypes);
+  var configuracion_menu = _configuracion_menu(sequelize, DataTypes);
+  var ingreso = _ingreso(sequelize, DataTypes);
   var inventario = _inventario(sequelize, DataTypes);
   var menu = _menu(sequelize, DataTypes);
   var menu_cliente = _menu_cliente(sequelize, DataTypes);
@@ -16,10 +18,12 @@ function initModels(sequelize) {
   var rol = _rol(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
-  menu_cliente.belongsTo(configuracion_productos, { as: "configuracion", foreignKey: "configuracion_id"});
-  configuracion_productos.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "configuracion_id"});
+  menu_cliente.belongsTo(configuracion_menu, { as: "configuracion", foreignKey: "configuracion_id"});
+  configuracion_menu.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "configuracion_id"});
   menu_cliente.belongsTo(menu, { as: "id_menu_menu", foreignKey: "id_menu"});
   menu.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "id_menu"});
+  ingreso.belongsTo(registro_clientes, { as: "cliente", foreignKey: "cliente_id"});
+  registro_clientes.hasMany(ingreso, { as: "ingresos", foreignKey: "cliente_id"});
   menu_cliente.belongsTo(registro_clientes, { as: "cliente", foreignKey: "cliente_id"});
   registro_clientes.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "cliente_id"});
   users.belongsTo(rol, { as: "rol", foreignKey: "rol_id"});
@@ -30,7 +34,8 @@ function initModels(sequelize) {
   users.hasMany(registro_clientes, { as: "registro_clientes", foreignKey: "user_id"});
 
   return {
-    configuracion_productos,
+    configuracion_menu,
+    ingreso,
     inventario,
     menu,
     menu_cliente,
