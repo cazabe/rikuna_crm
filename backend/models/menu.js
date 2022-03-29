@@ -38,6 +38,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'users',
         key: 'user_id'
       }
+    },
+    tipo_menu_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'tipo_menu',
+        key: 'tipo_menu_id'
+      }
     }
   }, {
     sequelize,
@@ -57,6 +65,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "user_id" },
+        ]
+      },
+      {
+        name: "IX_Relationship10",
+        using: "BTREE",
+        fields: [
+          { name: "tipo_menu_id" },
         ]
       },
     ]

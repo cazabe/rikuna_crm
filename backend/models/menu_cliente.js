@@ -7,14 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    cliente_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'registro_clientes',
-        key: 'cliente_id'
-      }
-    },
     id_menu: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -23,13 +15,21 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_menu'
       }
     },
-    configuracion_id: {
+    nombre_cliente: {
+      type: DataTypes.CHAR(20),
+      allowNull: true
+    },
+    cantidad: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'configuracion_menu',
-        key: 'configuracion_id'
-      }
+      allowNull: false
+    },
+    comentario: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    total: {
+      type: DataTypes.DECIMAL(6,2),
+      allowNull: false
     },
     estado: {
       type: DataTypes.TINYINT,
@@ -62,24 +62,10 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "IX_Relationship5",
-        using: "BTREE",
-        fields: [
-          { name: "cliente_id" },
-        ]
-      },
-      {
         name: "IX_Relationship6",
         using: "BTREE",
         fields: [
           { name: "id_menu" },
-        ]
-      },
-      {
-        name: "IX_Relationship7",
-        using: "BTREE",
-        fields: [
-          { name: "configuracion_id" },
         ]
       },
     ]
