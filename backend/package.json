@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "syncDB": "sequelize-auto -o \"./models\" -d rikuna -h localhost -u root -p 3306 -e mysql"
   },
   "keywords": [],
@@ -24,7 +24,9 @@
     "sequelize": "^6.16.1"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "nodemon": "^2.0.15",
-    "sequelize-auto": "^0.8.8"
+    "sequelize-auto": "^0.8.8",
+    "supertest": "^6.2.2"
   }
 }

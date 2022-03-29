@@ -22,13 +22,15 @@ const PORT = process.env.PORT || 8000;
 
 //sequelize auth database conection
 // Check DB connection
-
 sequelize.authenticate().then(() => {
     console.log('DB connection OK!');
 }).catch(err => {
     console.error('DB connection ERROR:', err);
 });
 
+//lift server up
 app.listen(PORT, () => {
     console.log("server runnig on port ", PORT);
 })
+
+module.exports = app;

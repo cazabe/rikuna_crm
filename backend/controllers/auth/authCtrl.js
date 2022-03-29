@@ -29,8 +29,9 @@ const Login = async (req, res) => {
             return res.status(401).json({ status: 'ERROR', data: 'CREDENCIALES_INVALIDAS' });
         }
 
+
         // Create and send JWT
-        const token = jwt.sign({ id: user.usuario_id }, process.env.JWT_SALT, { expiresIn: '12h' });
+        const token = jwt.sign({ id: user.user_id }, process.env.JWT_SALT, { expiresIn: '12h' });
         user.fecha_ultimo_ingreso = getFullDateWithTime();
         user.save();
 

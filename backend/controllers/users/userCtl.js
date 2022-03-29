@@ -3,13 +3,6 @@ const bcrypt = require('bcrypt');
 const { getFullDateWithTime } = require('../../utils/dates');
 const { users, rol } = sequelize.models;
 
-const Login = async (req, res) => {
-    const { user, password } = req.body;
-    if (!user || !password) {
-        res.status(409).json({ message: "DATOS_FALTANTES" });
-    }
-}
-
 const GetUsers = async (req, res) => {
 
 }
@@ -44,7 +37,7 @@ const CreateUser = async (req, res) => {
         await users.create(data);
         return res.status(200).end();
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
     }
 }
@@ -55,7 +48,6 @@ const DeleteUser = async (req, res) => {
 
 
 module.exports = {
-    Login,
     GetUsers,
     CreateUser,
     DeleteUser,

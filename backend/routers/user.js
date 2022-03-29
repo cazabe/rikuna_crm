@@ -1,10 +1,12 @@
 const express = require('express');
 const route = express.Router();
-const { CreateUser } = require('../controllers/users/usersCtl');
-const { CreateRole } = require('../controllers/users/rolesCtl');
+const { authToken, authRole } = require('../middlewares/auth');
+const { CreateUser } = require('../controllers/users/userCtl');
+const { CreateRole } = require('../controllers/users/roleCtl');
+const { Roles } = require('../configurations/Roles');
 
-route.post('/api/register/user', CreateUser);
-route.post('/api/role', CreateRole);
+route.post('/api/register/user', authToken, CreateUser);
+route.post('/api/role', authToken, authRole(), CreateRole);
 
 
 
