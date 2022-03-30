@@ -38,7 +38,6 @@ const authToken = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
-        console.log(error);
         return res.status(401).json({ status: "ERROR", data: "NO_AUTENTICADO" });
     }
 }

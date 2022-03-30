@@ -31,6 +31,6 @@ sequelize.authenticate().then(() => {
 //lift server up
 app.listen(PORT, () => {
     console.log("server runnig on port ", PORT);
-})
+});
 
 module.exports = app;
