@@ -12,6 +12,7 @@ const CreateUser = async (req, res) => {
 
     if (!user || !password || !email || !userRol) {
         res.status(409).end();
+        console.log('entre aqui');
     }
 
     try {
