@@ -3,7 +3,7 @@ const app = require('../../index');
 
 describe('POST /api/register/user', () => {
     //token should be added for login in postman
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjQ4NTc0ODM5LCJleHAiOjE2NDg2MTgwMzl9.xA75xsLypR7x9nkPYrzLbVJPbOfuq4SWo2O_pXSEv5E';
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjQ4NzM4NTc3LCJleHAiOjE2NDg3ODE3Nzd9.8Od1cEpKWuFa2-EJlgSQGQljJuRe5slPNej_bKVdMpU';
     const data = {
         user: "admin rikuna tres",
         password: "12345678",

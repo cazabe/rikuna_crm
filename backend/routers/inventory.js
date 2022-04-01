@@ -8,15 +8,13 @@ const {
     updateProduct,
     updateProductCant,
     deleteProduct
-} = require('../controllers/inventario/inventarioCtl')
+} = require('../controllers/inventory/inventory')
 
-const prefix = "/api"
-
-route.post(prefix + '/inventory/product', authToken, createProducts);
-route.get(prefix + '/products', authToken, getProducts);
-route.get(prefix + '/product/:id', authToken, getOneProduct);
-route.put(prefix + '/product/:id', authToken, updateProduct);
-route.patch(prefix + '/product/:id', authToken, updateProductCant);
-route.delete(prefix + '/product/:id', authToken, deleteProduct);
+route.post('/api/inventory/product', authToken, createProducts);
+route.get('/api/products', authToken, getProducts);
+route.get('/api/product/:id', authToken, getOneProduct);
+route.put('/api/product/:id', authToken, updateProduct);
+route.patch('/api/product/:id', authToken, updateProductCant);
+route.delete('/api/product/:id', authToken, deleteProduct);
 
 module.exports = route;

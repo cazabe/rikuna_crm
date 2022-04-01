@@ -18,11 +18,13 @@ const createProducts = async (req, res) => {
             .end();
         }
 
+        const createDate = getFullDateWithTime();
+
         const data = {
             producto: producto,
             cantidad: cantidad,
             descripcion: descripcion,
-            created: getFullDateWithTime(),
+            created: createDate,
             estado: 'A'
         }
 

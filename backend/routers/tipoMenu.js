@@ -9,12 +9,10 @@ const {
 
 } = require('../controllers/tipoMenu/tipoMenu')
 
-const prefix = "/api"
-
-route.post(prefix + '/tipo-menu', authToken, createMenu);
-route.get(prefix + '/menu', authToken, getMenu);
-route.get(prefix + '/menu/:id', authToken, getOneMenu);
-route.put(prefix + '/menu/:id', authToken, updateMenu);
+route.post( '/api/tipo-menu', authToken, createMenu);
+route.get('/api/menu', authToken, getMenu);
+route.get('/api/menu/:id', authToken, getOneMenu);
+route.put('/api/menu/:id', authToken, updateMenu);
 // route.patch(prefix + '/product/:id', authToken, updateProductCant);
 
 module.exports = route;
