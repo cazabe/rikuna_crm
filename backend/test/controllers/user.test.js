@@ -1,8 +1,21 @@
 const request = require('supertest');
 const app = require('../../index');
 
+//User data
+const data = {
+    username: "admin rikuna tres",
+    password: "12345678",
+    email: "rikuna@hotmail.com",
+    userRol: 1
+}
+//User edit data
+const userEditData = {
+    username: "admin rikuna editado",
+}
+
 describe('POST /api/register/user', () => {
     //token should be added for login in postman
+<<<<<<< HEAD
     const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjQ4NzM4NTc3LCJleHAiOjE2NDg3ODE3Nzd9.8Od1cEpKWuFa2-EJlgSQGQljJuRe5slPNej_bKVdMpU';
     const data = {
         user: "admin rikuna tres",
@@ -10,6 +23,10 @@ describe('POST /api/register/user', () => {
         email: "rikuna@hotmail.com",
         userRol: 1
     }
+=======
+    const token = process.env.TOKEN_FOR_TEST
+
+>>>>>>> 960b2e720b7a0ed5156b0d32f3d459b8c7ab8e8b
     test('Should respond with a 401 status code if user dosen\'t provide a token', async () => {
         const response = await request(app).post('/api/register/user').send(data);
         expect(response.statusCode).toBe(401);
@@ -20,3 +37,37 @@ describe('POST /api/register/user', () => {
         expect(response.statusCode).toBe(200);
     });
 })
+
+describe('GET /api/user', () => {
+    test('Should respond with a 401 status code if user dosen\'t provide a token', async () => {
+        const response = await request(app).get('/api/user');
+        expect(response.statusCode).toBe(401);
+    });
+
+    //token should be added for login in postman
+    const token = process.env.TOKEN_FOR_TEST
+
+    test('Should respond with a 200 status code and a array of users if user has token and approve rol', async () => {
+        const response = await request(app).get('/api/user').set('Authorization', token);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.data.length).toBeGreaterThanOrEqual(1);
+    });
+});
+
+describe('PUT /api/user/:id', () => {
+    //token should be added for login in postman
+    const token = process.env.TOKEN_FOR_TEST
+    test('Should respond with a 200 status code if user was upadted correctly', async () => {
+        const response = await request(app).put(`/api/user/${1}`).set('Authorization', token).send(userEditData);
+        expect(response.statusCode).toBe(200);
+    });
+});
+
+describe('DELETE /api/user/:id', () => {
+    //token should be added for login in postman
+    const token = process.env.TOKEN_FOR_TEST
+    test('Should respond with a 200 status code if user was deleted correctly', async () => {
+        const response = await request(app).delete(`/api/user/${7}`).set('Authorization', token);
+        expect(response.statusCode).toBe(200);
+    });
+});

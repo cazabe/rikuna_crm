@@ -3,16 +3,16 @@ const bcrypt = require('bcrypt');
 const { getFullDateWithTime } = require('../../utils/dates');
 const { users, rol } = sequelize.models;
 
-const GetUsers = async (req, res) => {
-
-}
-
 const CreateUser = async (req, res) => {
     const { user, password, email, userRol } = req.body
 
     if (!user || !password || !email || !userRol) {
+<<<<<<< HEAD
         res.status(409).end();
         console.log('entre aqui');
+=======
+        return res.status(409).end();
+>>>>>>> 960b2e720b7a0ed5156b0d32f3d459b8c7ab8e8b
     }
 
     try {
@@ -21,7 +21,7 @@ const CreateUser = async (req, res) => {
         });
 
         if (!user_rol) {
-            res.status(400).json({ Message: 'ROL_NO_EXISTE' }).end();
+            return res.status(400).json({ Message: 'ROL_NO_EXISTE' }).end();
         }
 
         const hash = await bcrypt.hash(password, 10);
@@ -38,18 +38,76 @@ const CreateUser = async (req, res) => {
         await users.create(data);
         return res.status(200).end();
     } catch (error) {
-        // console.log(error);
-        res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
+        return res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
     }
 }
 
-const DeleteUser = async (req, res) => {
+const ReadUsers = async (req, res) => {
+    try {
+        const usersdata = await users.findAll({
+            attributes: { exclude: ["password"] },
+            where: { estado: "A" }
+        });
+        if (!usersdata) {
+            return res.status(400).end();
+        }
+        return res.status(200).json({ data: usersdata });
+    } catch (error) {
+        return res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
+    }
+}
 
+const EditUser = async (req, res) => {
+    const { id } = req.params;
+    const { username, correo, estado, rol_id } = req.body;
+    try {
+        const user = await users.findOne({
+            where: { user_id: id }
+        })
+
+        if (!user) {
+            return res.status(400).json({ message: "USUARIO_NO_ENCONTRADO" });
+        }
+
+        user.username = username ? username : user.username;
+        user.correo = correo ? correo : user.correo;
+        user.estado = estado ? estado : user.estado;
+        user.rol_id = rol_id ? rol_id : user.rol_id;
+        await user.save()
+        return res.status(200).end();
+
+    } catch (error) {
+        return res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
+    }
+
+}
+
+const DeleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await users.findOne({
+            where: { user_id: id }
+        })
+
+        if (!user) {
+            return res.status(400).json({ message: "USUARIO_NO_ENCONTRADO" });
+        }
+        //We set the state to I so we make a logical delete
+        user.estado = "I";
+        await user.save()
+
+        return res.status(200).end();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: "ERROR", data: "ERROR_SERVIDOR" });
+    }
 }
 
 
 module.exports = {
-    GetUsers,
     CreateUser,
-    DeleteUser,
+    ReadUsers,
+    EditUser,
+    DeleteUser
 }

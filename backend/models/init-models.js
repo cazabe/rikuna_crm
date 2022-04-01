@@ -16,12 +16,14 @@ function initModels(sequelize) {
   var tipo_menu = _tipo_menu(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
-  menu_cliente.belongsTo(menu, { as: "id_menu_menu", foreignKey: "id_menu"});
-  menu.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "id_menu"});
+  ingreso.belongsTo(menu_cliente, { as: "id_menu_cliente_menu_cliente", foreignKey: "id_menu_cliente"});
+  menu_cliente.hasMany(ingreso, { as: "ingresos", foreignKey: "id_menu_cliente"});
   users.belongsTo(rol, { as: "rol", foreignKey: "rol_id"});
   rol.hasMany(users, { as: "users", foreignKey: "rol_id"});
   menu.belongsTo(tipo_menu, { as: "tipo_menu", foreignKey: "tipo_menu_id"});
   tipo_menu.hasMany(menu, { as: "menus", foreignKey: "tipo_menu_id"});
+  menu_cliente.belongsTo(tipo_menu, { as: "tipo_menu", foreignKey: "tipo_menu_id"});
+  tipo_menu.hasMany(menu_cliente, { as: "menu_clientes", foreignKey: "tipo_menu_id"});
   menu.belongsTo(users, { as: "user", foreignKey: "user_id"});
   users.hasMany(menu, { as: "menus", foreignKey: "user_id"});
 
