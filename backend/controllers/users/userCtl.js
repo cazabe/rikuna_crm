@@ -7,12 +7,7 @@ const CreateUser = async (req, res) => {
     const { user, password, email, userRol } = req.body
 
     if (!user || !password || !email || !userRol) {
-<<<<<<< HEAD
-        res.status(409).end();
-        console.log('entre aqui');
-=======
         return res.status(409).end();
->>>>>>> 960b2e720b7a0ed5156b0d32f3d459b8c7ab8e8b
     }
 
     try {
