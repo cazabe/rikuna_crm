@@ -15,24 +15,20 @@ const userEditData = {
 
 describe('POST /api/register/user', () => {
     //token should be added for login in postman
-<<<<<<< HEAD
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjQ4NzM4NTc3LCJleHAiOjE2NDg3ODE3Nzd9.8Od1cEpKWuFa2-EJlgSQGQljJuRe5slPNej_bKVdMpU';
+    const token = process.env.TOKEN_FOR_TEST
     const data = {
         user: "admin rikuna tres",
         password: "12345678",
         email: "rikuna@hotmail.com",
         userRol: 1
     }
-=======
-    const token = process.env.TOKEN_FOR_TEST
 
->>>>>>> 960b2e720b7a0ed5156b0d32f3d459b8c7ab8e8b
     test('Should respond with a 401 status code if user dosen\'t provide a token', async () => {
         const response = await request(app).post('/api/register/user').send(data);
         expect(response.statusCode).toBe(401);
     });
 
-    test('Should respond with a 200 status code if user has token and approve rol', async () => {
+    test('Should respond with a 200 status code if user has token, approved rol and create an user', async () => {
         const response = await request(app).post('/api/register/user').set('Authorization', token).send(data);
         expect(response.statusCode).toBe(200);
     });
@@ -47,7 +43,7 @@ describe('GET /api/user', () => {
     //token should be added for login in postman
     const token = process.env.TOKEN_FOR_TEST
 
-    test('Should respond with a 200 status code and a array of users if user has token and approve rol', async () => {
+    test('Should respond with a 200 status code and a array of users if user has token and approved rol', async () => {
         const response = await request(app).get('/api/user').set('Authorization', token);
         expect(response.statusCode).toBe(200);
         expect(response.body.data.length).toBeGreaterThanOrEqual(1);

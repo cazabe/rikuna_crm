@@ -12,6 +12,17 @@ function getFullDateWithTime() {
     return date;
 }
 
+function getFullDate() {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+
+    const date = year + '-' + month + '-' + day;
+    return date;
+}
+
 module.exports = {
-    getFullDateWithTime
+    getFullDateWithTime,
+    getFullDate
 }

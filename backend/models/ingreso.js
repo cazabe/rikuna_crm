@@ -11,8 +11,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'menu_cliente',
-        key: 'id_menu_cliente'
+        model: 'orden',
+        key: 'orden_id'
       }
     },
     created: {
