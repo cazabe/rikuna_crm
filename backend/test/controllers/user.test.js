@@ -16,12 +16,6 @@ const userEditData = {
 describe('POST /api/register/user', () => {
     //token should be added for login in postman
     const token = process.env.TOKEN_FOR_TEST
-    const data = {
-        user: "admin rikuna tres",
-        password: "12345678",
-        email: "rikuna@hotmail.com",
-        userRol: 1
-    }
 
     test('Should respond with a 401 status code if user dosen\'t provide a token', async () => {
         const response = await request(app).post('/api/register/user').send(data);

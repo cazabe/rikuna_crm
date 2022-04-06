@@ -26,7 +26,7 @@ const CreateOrder = async (req, res) => {
             valorTipoMenu = tipoMenuData.precio_unitario;
         }
 
-        const total = valorTipoMenu * tipoMenuData.cantidad;
+        const total = Number(valorTipoMenu) * cantidad;
 
         console.log("total de orden ", total);
 
@@ -66,11 +66,10 @@ const ReadOrder = async (req, res) => {
 
 const UpdateOrder = async (req, res) => {
     const orderId = req.params.id
-    const { horaEntrega } = req.body;
 
     try {
         const orderData = await orden.findOne({
-            where: { orden_is: orderId }
+            where: { orden_id: orderId }
         });
 
         if (!orderData) {
@@ -78,9 +77,10 @@ const UpdateOrder = async (req, res) => {
         }
 
         orderData.estado = 'E'
-        orderData.hora_entrega = horaEntrega;
+        orderData.hora_entrega = getFullDateWithTime();
 
         await orderData.save();
+
         return res.status(200).end();
     } catch (error) {
         console.log(error);
