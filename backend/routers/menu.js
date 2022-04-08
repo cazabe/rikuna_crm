@@ -5,7 +5,7 @@ const { CreateMenu, ReadMenu, UpdateMenu } = require('../controllers/menu/index'
 const { Roles } = require('../configurations/Roles');
 
 route.post('/api/menu', authToken, authRole(), CreateMenu);
-route.get('/api/menu', authToken, authRole(), ReadMenu);
+route.get('/api/menu', ReadMenu);
 route.put('/api/menu/:id', authToken, authRole(), UpdateMenu);
 
 module.exports = route;

@@ -16,8 +16,6 @@ function initModels(sequelize) {
   var tipo_menu = _tipo_menu(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
-  ingreso.belongsTo(orden, { as: "id_menu_cliente_orden", foreignKey: "id_menu_cliente"});
-  orden.hasMany(ingreso, { as: "ingresos", foreignKey: "id_menu_cliente"});
   users.belongsTo(rol, { as: "rol", foreignKey: "rol_id"});
   rol.hasMany(users, { as: "users", foreignKey: "rol_id"});
   menu.belongsTo(tipo_menu, { as: "tipo_menu", foreignKey: "tipo_menu_id"});

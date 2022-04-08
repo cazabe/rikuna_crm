@@ -7,13 +7,13 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    id_menu_cliente: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'orden',
-        key: 'orden_id'
-      }
+    nombre_cliente: {
+      type: DataTypes.STRING(200),
+      allowNull: true
+    },
+    total: {
+      type: DataTypes.DECIMAL(6,2),
+      allowNull: false
     },
     created: {
       type: DataTypes.DATE,
@@ -39,13 +39,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id_ingreso" },
-        ]
-      },
-      {
-        name: "IX_Relationship11",
-        using: "BTREE",
-        fields: [
-          { name: "id_menu_cliente" },
         ]
       },
     ]

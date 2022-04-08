@@ -40,17 +40,8 @@ describe('POST /api/menu', () => {
 
 describe('GET /api/tipo/menu', () => {
 
-    test('Should respond with a 401 status code if user has an invalid token', async () => {
-        const response = await request(app).get('/api/menu');
-        expect(response.statusCode).toBe(401);
-    });
-
-
-    //token should be added for login in postman
-    const token = process.env.TOKEN_FOR_TEST
-
     test('Should respond with a 200 status code if user has token and return all tipos menus in db', async () => {
-        const response = await request(app).get('/api/menu').set('Authorization', token);
+        const response = await request(app).get('/api/menu');
         expect(response.statusCode).toBe(200);
         expect(response.body.data.length).toBeGreaterThanOrEqual(1);
     });
