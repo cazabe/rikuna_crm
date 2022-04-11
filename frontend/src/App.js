@@ -1,9 +1,12 @@
 import AppRouter from './appRouter';
+import { CentralContextProvider } from './centralContext';
 import './App.css';
 
 function App() {
   return (
-    <AppRouter />
+    <CentralContextProvider>
+      <AppRouter />
+    </CentralContextProvider>
   );
 }
 

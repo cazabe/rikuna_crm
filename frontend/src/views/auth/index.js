@@ -1,12 +1,53 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import { useCentralContext } from "../../centralContext";
+import { _login } from "../../services/controllers/auth";
+import { chkToken } from '../../services/chkToken.js'
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as LoginImg } from '../../Assets/Chef.svg';
 import "./login.css";
 
-const handleSubmit = () => {
-    console.log("enviando");
-}
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const [user, setUser] = useState('');
+    const [password, setPassword] = useState('');
+    const userContext = useCentralContext();
+
+    useEffect(() => {
+        const token = chkToken();
+        if (token) {
+            navigate('/dashboard');
+        }
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!user || !password) {
+            return alert('Todos los campos son obligatorios');
+        }
+
+        const userdata = {
+            username: user,
+            password: password
+        }
+
+        const resp = await _login(userdata);
+        console.log(resp);
+        if (!resp) {
+            alert('Error al iniciar session, intente de nuevo');
+        }
+
+        console.log('segui aquiii');
+        userContext.updateRole(resp.r);
+        userContext.updateUser(resp.u);
+        userContext.updateIsLogged(true);
+
+        localStorage.setItem('token', resp.t)
+        navigate('/dashboard');
+    }
+
+
     return (
         <>
             <div className="content">
@@ -29,7 +70,7 @@ const Login = () => {
                                     placeholder="Ingrese su usuario"
                                     className="form-control"
                                     id="username"
-                                    onChange={(e) => console.log("press")}
+                                    onChange={(e) => setUser(e.target.value)}
                                     autoComplete="off"
                                 />
                             </div>
@@ -42,7 +83,7 @@ const Login = () => {
                                     placeholder="Ingrese su contraseña"
                                     className="form-control"
                                     id="password"
-                                    onChange={(e) => console.log("press")}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <button type="submit" className="btn btn-login">
