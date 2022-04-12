@@ -38,7 +38,6 @@ const Login = () => {
             alert('Error al iniciar session, intente de nuevo');
         }
 
-        console.log('segui aquiii');
         userContext.updateRole(resp.r);
         userContext.updateUser(resp.u);
         userContext.updateIsLogged(true);
