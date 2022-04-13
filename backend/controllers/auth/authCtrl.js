@@ -7,7 +7,7 @@ const { users, rol } = sequelize.models;
 const Login = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
-        return res.status(409).json({ message: "DATOS_FALTANTES" });
+        return res.status(409).json({ message: "TODOS LOS CAMPOS SON OBLIGATORIOS" });
     }
 
     try {
