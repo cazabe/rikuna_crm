@@ -385,7 +385,7 @@
 .page-wrapper .page-content {
     display: inline-block;
     width: 100%;
-    /* background-image: url("../../../Assets/fondo-lineas-capaz.png"); */
+    /* background-color: blue; */
     background-size: cover;
     height: 100%;
 }

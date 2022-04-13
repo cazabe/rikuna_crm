@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useCentralContext } from "../../centralContext";
-import { _login } from "../../services/controllers/auth";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useCentralContext } from '../../centralContext';
+import { _login } from '../../services/controllers/auth';
 import { chkToken } from '../../services/chkToken.js'
+import headers from '../../services/headers.js';
+import { api } from '../../services/network.js';
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as LoginImg } from '../../Assets/Chef.svg';
 import "./login.css";
@@ -14,12 +16,56 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const userContext = useCentralContext();
 
-    useEffect(() => {
+    // Check server response and grants access
+    const setContextAndLetPass = useCallback(
+        (response) => {
+            if (!response) {
+                return;
+            }
+
+            if (response) {
+                userContext.updateRole(response.r);
+                userContext.updateUser(response.u);
+                userContext.updateIsLogged(true);
+
+                if (response.t) {
+                    localStorage.setItem("token", response.t);
+                }
+            }
+            navigate("/dashboard");
+        },
+        [userContext, navigate]
+    );
+
+    const verifyToken = useCallback(async () => {
         const token = chkToken();
-        if (token) {
-            navigate('/dashboard');
+
+        if (token == null) {
+            return;
         }
-    })
+
+        if (userContext.isLogged === true) {
+            navigate("/dashboard");
+            return;
+        }
+
+        try {
+            //TODO make auth route like the one in tagexpress admin
+            const response = await api.post(
+                "/v1/auth/ack",
+                {},
+                {
+                    headers: headers(),
+                }
+            );
+
+            setContextAndLetPass(response);
+        } catch (error) { }
+    }, [userContext, navigate, setContextAndLetPass]);
+
+    useEffect(() => {
+        verifyToken()
+    }, [verifyToken])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

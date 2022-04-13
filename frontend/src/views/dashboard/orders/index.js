@@ -4,7 +4,7 @@ import React from 'react';
 const Order = () => {
     return (
         <div>
-            Ordenes
+            <h1>Tabla de ordenes</h1>
         </div>
     )
 }

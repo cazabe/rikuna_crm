@@ -24,7 +24,7 @@ const Dashboard = () => {
                     .classList.remove("toggled");
             }
         });
-        // ___________________NO BORRAR ESTO. SE USARA CUANDO SE IMPLEMENTEN DROPDOWNS__________________
+        // ___________________DON'T DELETE THIS PART, THIS WOULD BE USE FOR IMPLEMENTING DROPDOWS__________________
         let dropDowns = document.querySelectorAll(".sidebar-dropdown > span");
         dropDowns.forEach((i) => {
             i.addEventListener("click", function () {
@@ -77,7 +77,7 @@ const Dashboard = () => {
                 <nav id="sidebar" className="sidebar-wrapper">
                     <div className="sidebar-content">
                         <div className="sidebar-brand">
-                            <Link to="/">
+                            <Link to="/dashboard">
                                 <img src={rikuna} alt="rikuna logo" style={{ height: "50px" }} />
                             </Link>
                             <div id="close-sidebar">
@@ -89,9 +89,6 @@ const Dashboard = () => {
                             <div className="user-info ml-4">
                                 <span className="user-name">
                                     {userContext.user}
-                                </span>
-                                <span className="user-status">
-                                    <span style={{ color: "var(--yellow)" }}><strong>En línea</strong></span>
                                 </span>
                             </div>
                         </div>
@@ -134,12 +131,7 @@ const Dashboard = () => {
                 <main className="page-content">
                     <div className="container-fluid">
                         <Routes>
-
-                            {/* <Route path="/dashboard/order">
-                                <Order />
-                            </Route> */}
-
-                            <Route path="/dashboard/order" component={Order} />
+                            <Route path="/order" element={<Order />} />
                         </Routes>
                     </div>
                 </main>
