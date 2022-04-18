@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCentralContext } from '../../centralContext';
 import { _login } from '../../services/controllers/auth';
-import { chkToken } from '../../services/chkToken.js'
-import headers from '../../services/headers.js';
-import { api } from '../../services/network.js';
+import { api } from '../../services/network';
+import headers from '../../services/headers';
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as LoginImg } from '../../Assets/Chef.svg';
 import "./login.css";
@@ -16,56 +15,34 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const userContext = useCentralContext();
 
-    // Check server response and grants access
-    const setContextAndLetPass = useCallback(
-        (response) => {
-            if (!response) {
-                return;
-            }
-
-            if (response) {
-                userContext.updateRole(response.r);
-                userContext.updateUser(response.u);
-                userContext.updateIsLogged(true);
-
-                if (response.t) {
-                    localStorage.setItem("token", response.t);
-                }
-            }
-            navigate("/dashboard");
-        },
-        [userContext, navigate]
-    );
-
+    //check if user has permissions and has a valid token
     const verifyToken = useCallback(async () => {
-        const token = chkToken();
-
-        if (token == null) {
-            return;
-        }
-
-        if (userContext.isLogged === true) {
-            navigate("/dashboard");
-            return;
-        }
-
         try {
-            //TODO make auth route like the one in tagexpress admin
             const response = await api.post(
-                "/v1/auth/ack",
+                "/auth/chklogged",
                 {},
                 {
                     headers: headers(),
                 }
-            );
+            )
+            console.log("esp de logged ", response);
+            if (response.data.status === 'autorizado_ok') {
+                userContext.updateRole(response.data.data.r);
+                userContext.updateUser(response.data.data.u);
+                navigate('/dashboard');
+            } else {
+                return;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }, [navigate, userContext]);
 
-            setContextAndLetPass(response);
-        } catch (error) { }
-    }, [userContext, navigate, setContextAndLetPass]);
 
     useEffect(() => {
-        verifyToken()
-    }, [verifyToken])
+        verifyToken();
+    }, [navigate, verifyToken]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,18 +55,14 @@ const Login = () => {
             password: password
         }
 
-        const resp = await _login(userdata);
-        console.log(resp);
-        if (!resp) {
-            alert('Error al iniciar session, intente de nuevo');
+        try {
+            const response = await _login(userdata);
+            userContext.updateRole(response.data.data.r);
+            userContext.updateUser(response.data.data.u);
+            localStorage.setItem("token", response.data.data.t);
+        } catch (error) {
+            alert("Credenciales invalidas");
         }
-
-        userContext.updateRole(resp.r);
-        userContext.updateUser(resp.u);
-        userContext.updateIsLogged(true);
-
-        localStorage.setItem('token', resp.t)
-        navigate('/dashboard');
     }
 
 

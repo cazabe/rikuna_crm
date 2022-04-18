@@ -7,5 +7,5 @@ const chkToken = () => {
 }
 
 export {
-    chkToken
+    chkToken,
 };

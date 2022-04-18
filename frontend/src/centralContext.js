@@ -9,7 +9,6 @@ export function useCentralContext() {
 export function CentralContextProvider({ children }) {
     const [role, setRole] = useState(null);
     const [user, setUser] = useState(null);
-    const [isLogged, setIsLogged] = useState(false);
 
     function updateRole(newRole) {
         setRole(newRole);
@@ -19,17 +18,11 @@ export function CentralContextProvider({ children }) {
         setUser(newUser);
     }
 
-    function updateIsLogged(newIsLogged) {
-        setIsLogged(newIsLogged);
-    }
-
     let contextData = {
         role,
         user,
-        isLogged,
         updateRole,
         updateUser,
-        updateIsLogged,
     };
 
     return (

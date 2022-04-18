@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useCentralContext } from '../../centralContext.js';
-import { chkToken } from '../../services/chkToken.js'
+import headers from '../../services/headers.js';
+import { api } from '../../services/network.js';
 import { useNavigate, Link, Route, Routes } from "react-router-dom";
 import Order from './orders/index.js';
 import rikuna from '../../Assets/rikunalogo.jpeg'
@@ -10,11 +11,28 @@ const Dashboard = () => {
     const userContext = useCentralContext();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const hasToke = chkToken();
-        if (!hasToke) {
+    //check if user has permissions and has a valid token
+    const verifyToken = useCallback(async () => {
+        try {
+            const response = await api.post(
+                "/auth/chklogged",
+                {},
+                {
+                    headers: headers(),
+                }
+            )
+            if (response.data.status === 'autorizado_ok') {
+                userContext.updateRole(response.data.data.r);
+                userContext.updateUser(response.data.data.u);
+            }
+        } catch (error) {
             navigate('/login');
         }
+    }, [navigate, userContext]);
+
+    useEffect(() => {
+        //check for context and if user has a valid token so he can be logged in in dashboard
+        verifyToken()
         //Dashboard settings
         // To hide the sidebar when an option is clicked (mobile view: < 600px)
         document.addEventListener("click", (event) => {
@@ -64,9 +82,10 @@ const Dashboard = () => {
                     .getElementsByClassName("page-wrapper")[0]
                     .classList.add("toggled");
             });
-    }, [navigate]);
+    }, [navigate, verifyToken]);
 
-    console.log('Rol que viene de user context', userContext);
+    console.log('Lo que viene del cotext', userContext);
+    console.log('El token ', localStorage.getItem("token"));
     return (
         <div>
             <div className="page-wrapper chiller-theme toggled">

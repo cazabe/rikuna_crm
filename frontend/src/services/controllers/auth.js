@@ -5,7 +5,7 @@ const _login = async (userData) => {
     if (resp && resp.status !== 200) {
         throw new Error('ERROR AL INICIAR SESION');
     }
-    return resp.data.data;
+    return resp;
 }
 
 export {
