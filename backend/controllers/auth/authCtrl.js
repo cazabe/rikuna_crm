@@ -42,6 +42,21 @@ const Login = async (req, res) => {
     }
 }
 
+/* Returns the user role and username. It's used to auto-login a user that has a token.
+ A Request will get to this point only if the token is valid, ensuring that then user should have
+ access at the frontend login.
+ */
+const chkLogged = async (req, res) => {
+    try {
+        const user = req.user;
+        res.status(200).json({ status: 'autorizado_ok', data: { r: user.rol.rol, u: user.username } });
+    }
+    catch (e) {
+        res.status(401).json({ status: 'ERROR', data: 'NO_AUTORIZADO' });
+    }
+}
+
 module.exports = {
-    Login
+    Login,
+    chkLogged
 }
