@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const MenuCards = ({ data }) => {
-    console.log(data);
     return (
         <Card className="text-center">
             <Card.Header><h2>{data.tipo_menu.menu}</h2></Card.Header>
