@@ -84,8 +84,8 @@ const Dashboard = () => {
             });
     }, [navigate, verifyToken]);
 
-    console.log('Lo que viene del cotext', userContext);
-    console.log('El token ', localStorage.getItem("token"));
+    // console.log('Lo que viene del cotext', userContext);
+    // console.log('El token ', localStorage.getItem("token"));
     return (
         <div>
             <div className="page-wrapper chiller-theme toggled">
