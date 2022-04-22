@@ -1,15 +1,12 @@
 import { api } from "../network";
 import headers from "../headers";
 
-
 const _getMenu = async () => {
-    const resp = await api.get('/menu');
-    if (resp && resp.status !== 200) {
-        throw new Error("ERROR AL CONSULTAR LOS DATOS");
-    }
-    return resp.data.data
-}
+  const resp = await api.get("/menu", { headers: headers() });
+  if (resp && resp.status !== 200) {
+    throw new Error("ERROR AL CONSULTAR LOS DATOS");
+  }
+  return resp.data.data;
+};
 
-export {
-    _getMenu
-}
+export { _getMenu };

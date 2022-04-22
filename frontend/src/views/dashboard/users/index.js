@@ -4,11 +4,12 @@ import { PlusSquare } from "react-feather";
 import { Row, Modal, Button, ModalHeader, ModalBody } from "reactstrap";
 import { TableRegisterUser } from "./components/TableRegisterUser";
 import { _getUser } from "../../../services/controllers/user";
+import { NewUser } from "./components/NewUser";
 
 const Users = () => {
   const [userData, setUserData] = useState([]);
   const [modalRegister, setModalRegister] = useState(false);
-  const toogle = () => setModalRegister(!modalRegister);
+  const toggle = () => setModalRegister(!modalRegister);
 
   const getUsers = useCallback(async () => {
     try {
@@ -18,16 +19,17 @@ const Users = () => {
       console.log(error);
     }
   }, []);
-  console.log(userData);
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
   return (
     <>
-      <Modal>
-        <ModalHeader></ModalHeader>
-        <ModalBody></ModalBody>
+      <Modal isOpen={modalRegister} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Ingresar Nuevo Usuario</ModalHeader>
+        <ModalBody>
+          <NewUser setModalRegister={setModalRegister} />
+        </ModalBody>
       </Modal>
       <div
         className="mb-4"
@@ -45,13 +47,14 @@ const Users = () => {
         </div>
       </div>
       <Row>
-        {userData.length > 0 ? (
+        {/* {userData.length > 0 ? (
           userData.map((item) => {
             return <TableRegisterUser data={item} />;
           })
         ) : (
           <h1>No hay Usuarios registrados</h1>
-        )}
+        )} */}
+        <TableRegisterUser data={userData} />
       </Row>
     </>
   );

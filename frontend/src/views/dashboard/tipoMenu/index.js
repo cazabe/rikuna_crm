@@ -2,31 +2,34 @@ import React, { useCallback, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PlusSquare } from "react-feather";
 import { Row, Modal, Button, ModalHeader, ModalBody } from "reactstrap";
-import { _getUser } from "../../../services/controllers/user";
+import { TableMenuType } from "./components/TableMenuType";
+import { _getTipoMenu } from "../../../services/controllers/tipoMenu";
+import { NewMenu } from "./components/NewMenu";
 
 const TipoMenu = () => {
-  const [userData, setUserData] = useState([]);
-  const [modalRegister, setModalRegister] = useState(false);
-  const toogle = () => setModalRegister(!modalRegister);
+  const [menuType, setMenuType] = useState([]);
+  const [showMenuType, setShowMenuType] = useState(false);
+  const toggle = () => setShowMenuType(!showMenuType);
 
-  const getUsers = useCallback(async () => {
+  const getMenuType = useCallback(async () => {
     try {
-      const data = await _getUser();
-      setUserData(data);
+      const data = await _getTipoMenu();
+      setMenuType(data);
     } catch (error) {
       console.log(error);
     }
   }, []);
-  console.log(userData);
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+    getMenuType();
+  }, [getMenuType]);
   return (
     <>
-      <Modal>
-        <ModalHeader></ModalHeader>
-        <ModalBody></ModalBody>
+      <Modal isOpen={showMenuType} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Ingresar Menu</ModalHeader>
+        <ModalBody>
+          <NewMenu setModalRegister={setShowMenuType} />
+        </ModalBody>
       </Modal>
       <div
         className="mb-4"
@@ -38,20 +41,21 @@ const TipoMenu = () => {
       >
         <h1>Tipo Menu</h1>
         <div>
-          <Button color="info" onClick={() => setModalRegister(true)}>
+          <Button color="info" onClick={() => setShowMenuType(true)}>
             <PlusSquare />
           </Button>
         </div>
       </div>
-      {/* <Row>
-        {userData.length > 0 ? (
-          userData.map((item) => {
-            // return <TableRegisterUser data={item} />;
+      <Row>
+        {/* {menuType.length > 0 ? (
+          menuType.map((item) => {
+            return <TableMenuType data={item} />;
           })
         ) : (
-          <h1>No hay Usuarios registrados</h1>
-        )}
-      </Row> */}
+          <h1>No Hay Tipos de Menus</h1>
+        )} */}
+        <TableMenuType data={menuType} />
+      </Row>
     </>
   );
 };
