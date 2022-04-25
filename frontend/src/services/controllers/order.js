@@ -26,7 +26,18 @@ const _gettOrder = async () => {
     }
 }
 
+
+const _updateOrder = async (id, action) => {
+    const resp = await api.put(`/order/${id}?action=${action}`, {}, { headers: headers() })
+    if (resp.status === 200) {
+        return resp;
+    } else {
+        return false;
+    }
+}
+
 export {
     _postOrder,
-    _gettOrder
+    _gettOrder,
+    _updateOrder
 }

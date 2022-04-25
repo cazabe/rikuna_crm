@@ -97,7 +97,7 @@ const Dashboard = () => {
                     <div className="sidebar-content">
                         <div className="sidebar-brand">
                             <Link to="/dashboard">
-                                <img src={rikuna} alt="rikuna logo" style={{ height: "50px" }} />
+                                <img src={rikuna} alt="rikuna logo" style={{ height: "50px", borderRadius: "10%" }} />
                             </Link>
                             <div id="close-sidebar">
                                 <i className="fa fa-times" style={{ color: "var(--blue)" }}></i>

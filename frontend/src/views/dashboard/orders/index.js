@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import { _gettOrder } from '../../../services/controllers/order';
+import { _gettOrder, _updateOrder } from '../../../services/controllers/order';
+import delivery from '../../../Assets/delivery.png';
+import confDelivery from '../../../Assets/take-away.png';
+import './orders.css';
 
 const Order = () => {
     const [orders, setOrders] = useState([]);
@@ -19,10 +22,21 @@ const Order = () => {
         }
     }
 
+    const handleUpdateDelivery = async (id, action) => {
+        try {
+            const resp = await _updateOrder(id, action)
+            if (resp) {
+                return alert('La acción se registro de manera correcta');
+            }
+        } catch (error) {
+            alert('Erro al registrar la acción, intente de nuevo por favor');
+        }
+    }
+
     useEffect(() => {
         getOrders()
     }, [])
-    console.log("Llegaron las ordenes", orders);
+    // console.log("Llegaron las ordenes", orders);
     return (
         <div>
             <h1>Tabla de ordenes</h1>
@@ -37,6 +51,7 @@ const Order = () => {
                                 <th>Cantidad</th>
                                 <th>Comentario</th>
                                 <th>Total de la orden</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -50,8 +65,9 @@ const Order = () => {
                                         <td>{order.tipo_menu.menu}</td>
                                         <td>{order.cantidad}</td>
                                         <td>{order.comentario ? order.comentario : "-"}</td>
-                                        <td>{order.total}</td>
-                                        <td>Registrar salida y entrega</td>
+                                        <td>${order.total}</td>
+                                        <td>{order.hora_entrega ? "Entregado" : order.hora_salida ? "En proceso" : "Agregar salida"}</td>
+                                        <td><img className='tableImg' src={delivery} alt='delivery' onClick={() => handleUpdateDelivery(order.orden_id, 'salida')} /> <img className='tableImg' src={confDelivery} alt='confirm delivery' /> </td>
                                     </tr>
                                 )
                             })}

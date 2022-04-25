@@ -1,3 +1,9 @@
 li {
   list-style: none;
 }
+
+
+.tableImg {
+  height: 30px;
+  cursor: pointer;
+}
