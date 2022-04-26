@@ -27,6 +27,8 @@ const CreateOrder = async (req, res) => {
       valorTipoMenu = tipoMenuData.precio_unitario;
     } else if (tipoMenuData.menu == "Saludable") {
       valorTipoMenu = tipoMenuData.precio_unitario;
+    } else if (tipoMenuData.menu == "Vegetariano") {
+      valorTipoMenu = tipoMenuData.precio_unitario;
     }
 
     const total = Number(valorTipoMenu) * cantidad;
@@ -68,6 +70,7 @@ const ReadOrder = async (req, res) => {
 
 const UpdateOrder = async (req, res) => {
   const orderId = req.params.id;
+  const action = req.query.action;
 
   try {
     const orderData = await orden.findOne({
@@ -78,8 +81,12 @@ const UpdateOrder = async (req, res) => {
       return res.status(400).json({ error: "NO EXISTE EL MENU" });
     }
 
-    orderData.estado = "E";
-    orderData.hora_entrega = getFullDateWithTime();
+    if (action === 'salida') {
+      orderData.hora_salida = getFullDateWithTime();
+    } else if (action === 'entrega') {
+      orderData.estado = 1;
+      orderData.hora_entrega = getFullDateWithTime();
+    }
 
     await orderData.save();
 
