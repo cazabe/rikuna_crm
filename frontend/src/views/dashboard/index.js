@@ -6,6 +6,7 @@ import { useNavigate, Link, Route, Routes } from "react-router-dom";
 import Order from './orders/index.js';
 import rikuna from '../../Assets/rikunalogo.jpeg'
 import './dashboard.css';
+import Income from './Income/index.js';
 
 const Dashboard = () => {
     const userContext = useCentralContext();
@@ -128,6 +129,15 @@ const Dashboard = () => {
                                         </Link>
                                     </span>
                                 </li>
+
+                                <li className="sidebar-dropdown">
+                                    <span style={{ cursor: "pointer" }}>
+                                        <Link className="menu-option-text" to="/dashboard/income" >
+                                            <i className="fa fa-info"></i>
+                                            Ingresos
+                                        </Link>
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -151,6 +161,9 @@ const Dashboard = () => {
                     <div className="container-fluid">
                         <Routes>
                             <Route path="/order" element={<Order />} />
+                        </Routes>
+                        <Routes>
+                            <Route path="/income" element={<Income />} />
                         </Routes>
                     </div>
                 </main>

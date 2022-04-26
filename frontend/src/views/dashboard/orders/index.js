@@ -26,10 +26,13 @@ const Order = () => {
         try {
             const resp = await _updateOrder(id, action)
             if (resp) {
-                return alert('La acción se registro de manera correcta');
+                alert('La acción se registro de manera correcta');
+                window.location.reload();
+                return;
             }
         } catch (error) {
             alert('Erro al registrar la acción, intente de nuevo por favor');
+            return;
         }
     }
 
@@ -66,7 +69,7 @@ const Order = () => {
                                         <td>{order.cantidad}</td>
                                         <td>{order.comentario ? order.comentario : "-"}</td>
                                         <td>${order.total}</td>
-                                        <td>{order.hora_entrega ? "Entregado" : order.hora_salida ? "En proceso" : "Agregar salida"}</td>
+                                        <td>{order.hora_entrega ? "Entregado" : order.hora_salida ? "En proceso" : "-"}</td>
                                         <td><img className='tableImg' src={delivery} alt='delivery' onClick={() => handleUpdateDelivery(order.orden_id, 'salida')} /> <img className='tableImg' src={confDelivery} alt='confirm delivery' /> </td>
                                     </tr>
                                 )
