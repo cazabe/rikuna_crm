@@ -1,18 +1,30 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Form, Button } from "reactstrap";
-import { useForm } from "react-hook-form";
+import { Form } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { _createUser } from "../../../../services/controllers/user";
 import { _getRol } from "../../../../services/controllers/user";
 
-export const NewUser = ({ setModalRegister }) => {
-  //   const dataRol = _getRol;
+export const NewUser = ({ close }) => {
+  const [rolInfo, setRolInfo] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [password, setPasword] = useState("");
+  const [rolUser, setUserRol] = useState();
 
-  const [userRol, setUserRol] = useState([]);
+  const submit = async (e) => {
+    e.preventDefault();
+    try {
+      await _createUser(userName, password, correo, rolUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getRol = useCallback(async () => {
     try {
       const data = await _getRol();
-      setUserRol(data);
+      setRolInfo(data);
     } catch (error) {
       console.log(error);
     }
@@ -22,79 +34,52 @@ export const NewUser = ({ setModalRegister }) => {
     getRol();
   }, [getRol]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = async (data) => {
-    try {
-      await _createUser(data);
-      setModalRegister(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group mb-3">
-          <label>Nombre Usuario</label>
-          <input
-            className="form-control"
-            placeholder="Usuario"
-            {...register("username", {
-              required: { value: true, message: "El nombre es requerido" },
-            })}
-          />
-          <small className="form-text text-danger">
-            {errors.nombre_producto && errors.nombre_producto.message}
-          </small>
-        </div>
-        <div className="form-group mb-3">
-          <label>Contraseña</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Contraseña"
-            {...register("password", {
-              required: { value: true, message: "Contraseña requerida" },
-            })}
-          />
-        </div>
-        <div className="form-group mb-3">
-          <label>Correo</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Correo"
-            {...register("correo", {
-              required: { value: true, message: "Correo requerida" },
-            })}
-          />
-        </div>
-        <div className="form-group mb-3">
-          <label>Rol</label>
-          <select
-            className="form-control"
-            {...register("rol_id", {
-              required: { value: true, message: "Rol requerida" },
-            })}
-          >
-            <option value="">Seleccione Rol</option>
-            {userRol.map((rol, index) => (
-              <option value={`${rol.rol_id}`} key={rol.rol_id}>
-                {rol.rol}
-              </option>
-            ))}
-          </select>
-        </div>
-        <Button color="success" type="submit">
-          Guardar
-        </Button>
-      </Form>
+      <Container>
+        <Form onSubmit={submit}>
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              onChange={(e) => setUserName(e.target.value)}
+              type="nombre"
+              placeholder="Ingrese usuario"
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Ingrese password"
+              onChange={(e) => setPasword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Correo</Form.Label>
+            <Form.Control
+              onChange={(e) => setCorreo(e.target.value)}
+              type="email"
+              placeholder="Ingrese Email"
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Seleccione un Rol</Form.Label>
+            <Form.Select onChange={(e) => setUserRol(e.target.value)}>
+              <option>Elige un rol</option>
+              {rolInfo.map((item) => {
+                return (
+                  <option key={item.rol_id} value={item.rol_id}>
+                    {item.rol}
+                  </option>
+                );
+              })}
+            </Form.Select>
+          </Form.Group>
+          <Button variant="primary" type="submit" onClick={close}>
+            Guardar
+          </Button>
+        </Form>
+      </Container>
     </>
   );
 };

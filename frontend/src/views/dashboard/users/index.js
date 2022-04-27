@@ -1,61 +1,163 @@
-import React, { useCallback, useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { PlusSquare } from "react-feather";
-import { Row, Modal, Button, ModalHeader, ModalBody } from "reactstrap";
-import { TableRegisterUser } from "./components/TableRegisterUser";
+import React, { useState, useEffect } from "react";
+import { Table, Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { Container } from "react-bootstrap";
 import { _getUser } from "../../../services/controllers/user";
 import { NewUser } from "./components/NewUser";
+import { EditUser } from "./components/EditUser";
+import headers from "../../../services/headers";
+import { api } from "../../../services/network";
+import { FaEdit, FaEraser } from "react-icons/fa";
 
 const Users = () => {
-  const [userData, setUserData] = useState([]);
-  const [modalRegister, setModalRegister] = useState(false);
-  const toggle = () => setModalRegister(!modalRegister);
+  const [registerId, setRegisterId] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showEraser, setShowEraser] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleRegisterClose = () => setShowRegister(false);
+  const handleEraserClose = () => setShowEraser(false);
+  const handleRegister = () => setShowRegister(true);
+  const handleEraser = () => setShowEraser(true);
 
-  const getUsers = useCallback(async () => {
+  const getUsers = async () => {
     try {
-      const data = await _getUser();
-      setUserData(data);
+      const resp = await _getUser();
+      if (resp.status === 200) {
+        setUsers(resp.data.data);
+      } else {
+        alert("No se econtro");
+      }
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
+
+  const deleteUser = async () => {
+    try {
+      const resp = await api.delete(`/user/${registerId}`, {
+        headers: headers(),
+      });
+      if (resp && resp.status !== 200) {
+        return "Error";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getUsers();
-  }, [getUsers]);
+  }, []);
+
   return (
     <>
-      <Modal isOpen={modalRegister} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Ingresar Nuevo Usuario</ModalHeader>
-        <ModalBody>
-          <NewUser setModalRegister={setModalRegister} />
-        </ModalBody>
+      {/* Modal de Editar */}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <EditUser id={registerId} />
+        </Modal.Body>
       </Modal>
-      <div
-        className="mb-4"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1>Usuarios</h1>
-        <div>
-          <Button color="info" onClick={() => setModalRegister(true)}>
-            <PlusSquare />
+
+      {/* Modal de Insertar */}
+      <Modal show={showRegister} onHide={handleRegisterClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Ingrese los datos del Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NewUser close={handleRegisterClose} />
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal de Eliminar */}
+      <Modal show={showEraser} onHide={handleEraserClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Eliminar Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Desea eliminar el Usuario?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleEraserClose}>
+            Cancelar
           </Button>
-        </div>
-      </div>
-      <Row>
-        {/* {userData.length > 0 ? (
-          userData.map((item) => {
-            return <TableRegisterUser data={item} />;
-          })
+          <Button
+            variant="danger"
+            onClick={() => {
+              deleteUser();
+              handleEraserClose();
+            }}
+          >
+            Eliminar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <h1>Usuarios</h1>
+      <Button onClick={handleRegister} className="mb-3">
+        Crear Usuario
+      </Button>
+      <Container>
+        {users.length > 0 ? (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((item) => {
+                return (
+                  <tr key={item.user_id}>
+                    <td>{item.username}</td>
+                    <td>{item.correo}</td>
+                    <td>
+                      {item.rol_id === 1 && (
+                        <label className="text-success">Admin</label>
+                      )}
+                      {item.rol_id === 2 && (
+                        <label className="text-warning">Cajas</label>
+                      )}
+                    </td>
+                    <td>
+                      <Button
+                        className="btn btn-sm mr-3"
+                        variant="outline-success"
+                        onClick={() => {
+                          setRegisterId(item.user_id);
+                          handleShow();
+                        }}
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Button
+                        className="btn btn-sm "
+                        variant="outline-danger"
+                        onClick={() => {
+                          setRegisterId(item.user_id);
+                          handleEraser();
+                        }}
+                      >
+                        <FaEraser />
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
         ) : (
-          <h1>No hay Usuarios registrados</h1>
-        )} */}
-        <TableRegisterUser data={userData} />
-      </Row>
+          <div className="text-center mt-4">
+            <h2>No hay ordenes activas</h2>
+          </div>
+        )}
+      </Container>
     </>
   );
 };

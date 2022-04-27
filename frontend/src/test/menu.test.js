@@ -18,7 +18,8 @@ test('Must render menu content', () => {
     view.getByText('MENU RIKUNA');
 });
 
-//with this type of test we can pass props to a component and test it also as if the component is making an api call and recieve data
+//with this type of test we can pass props to a component and test it also as if the component is making an api call and recieve data.
+//because this component reciebe props we must pass data in a json format for the test to work
 describe('<MenuCards/>', () => {
     let component
     beforeEach(() => {

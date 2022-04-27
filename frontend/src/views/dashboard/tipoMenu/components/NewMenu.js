@@ -1,57 +1,46 @@
-import React from "react";
-import { Form, Button } from "reactstrap";
-import { useForm } from "react-hook-form";
-import { _getTipoMenu } from "../../../../services/controllers/tipoMenu";
+import React, { useState } from "react";
+import { Form } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { _createMenu } from "../../../../services/controllers/tipoMenu";
+import { Button } from "react-bootstrap";
 
-export const NewMenu = ({ setShowMenuType }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+export const NewMenu = ({ close }) => {
+  const [menu, setMenu] = useState("");
+  const [price, setPrice] = useState("");
 
-  const onSubmit = async (data) => {
+  const submit = async (e) => {
+    e.preventDefault();
     try {
-      await (_getTipoMenu, data);
-      setShowMenuType(false);
+      await _createMenu(menu, price);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group mb-3">
-          <label>Menu</label>
-          <input
-            className="form-control"
-            placeholder="Tipo Menu"
-            {...register("username", {
-              required: { value: true, message: "El menu es requerido" },
-            })}
-          />
-          <small className="form-text text-danger">
-            {errors.nombre_producto && errors.nombre_producto.message}
-          </small>
-        </div>
-        <div className="form-group mb-3">
-          <label>Precio</label>
-          <input
-            className="form-control"
-            placeholder="Precio Unitario"
-            {...register("precio_unitario", {
-              required: { value: true, message: "El precio es requerido" },
-            })}
-          />
-          <small className="form-text text-danger">
-            {errors.nombre_producto && errors.nombre_producto.message}
-          </small>
-        </div>
-        <Button color="success" type="submit">
-          Guardar
-        </Button>
-      </Form>
+      <Container>
+        <Form onSubmit={submit}>
+          <Form.Group>
+            <Form.Label>Menu</Form.Label>
+            <Form.Control
+              onChange={(e) => setMenu(e.target.value)}
+              type="menu"
+              placeholder="Nombre del Menu"
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Precio</Form.Label>
+            <Form.Control
+              onChange={(e) => setPrice(e.target.value)}
+              type="precio"
+              placeholder="Precio del Menu"
+            ></Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit" onClick={close}>
+            Guardar
+          </Button>
+        </Form>
+      </Container>
     </>
   );
 };

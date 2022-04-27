@@ -6,7 +6,7 @@ const { addIngress } = require("../ingress");
 
 const CreateOrder = async (req, res) => {
   const { nombre, cantidad, tipoMenu, comentario } = req.body;
-  let valorTipoMenu = 0;
+  let valorTipoMenu = 0.0;
 
   if (!nombre || !cantidad || !tipoMenu) {
     return res
@@ -31,16 +31,14 @@ const CreateOrder = async (req, res) => {
 
     const total = Number(valorTipoMenu) * cantidad;
 
-    console.log("total de orden ", total);
 
     const dataOrder = {
-      nombre_cliente: nombre,
+      nombre_cliente: nombre.toLowerCase(),
       cantidad: cantidad,
       tipo_menu_id: tipoMenu,
       comentario: comentario,
       total: total,
       created: getFullDateWithTime(),
-      hora_salida: getFullDateWithTime(),
     };
 
     await orden.create(dataOrder);

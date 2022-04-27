@@ -8,6 +8,7 @@ import rikuna from "../../Assets/rikunalogo.jpeg";
 import "./dashboard.css";
 import Users from "./users/index.js";
 import TipoMenu from "./tipoMenu/index";
+import Inventory from "./inventory/index.js";
 
 const Dashboard = () => {
   const userContext = useCentralContext();
@@ -155,6 +156,17 @@ const Dashboard = () => {
                     </Link>
                   </span>
                 </li>
+                <li className="sidebar-dropdown">
+                  <span style={{ cursor: "pointer" }}>
+                    <Link
+                      className="menu-option-text"
+                      to="/dashboard/inventory"
+                    >
+                      <i className="fa fa-info"></i>
+                      Inventario
+                    </Link>
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
@@ -183,6 +195,7 @@ const Dashboard = () => {
               <Route path="/order" element={<Order />} />
               <Route path="/users" element={<Users />} />
               <Route path="/tipo/menu" element={<TipoMenu />} />
+              <Route path="/inventory" element={<Inventory />} />
             </Routes>
           </div>
         </main>

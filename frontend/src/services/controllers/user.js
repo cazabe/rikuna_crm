@@ -3,17 +3,18 @@ import headers from "../headers";
 
 const _getUser = async () => {
   const resp = await api.get("/user", { headers: headers() });
-  if (resp && resp.status !== 200) {
-    throw new Error("ERROR AL CONSULTAR LOS DATOS");
+  if (resp.status === 200) {
+    return resp;
+  } else {
+    return false;
   }
-  return resp.data.data;
 };
-const _createUser = async (username, password, correo, rol_id) => {
+const _createUser = async (username, password, correo, rolUser) => {
   const data = {
     user: username,
     password: password,
     email: correo,
-    userRol: rol_id,
+    userRol: rolUser,
   };
   const resp = await api.post("/register/user", data, { headers: headers() });
   if (resp && resp.status !== 200) {
