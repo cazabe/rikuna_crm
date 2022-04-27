@@ -1,8 +1,8 @@
 import React from "react";
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import MenuModal from "./Modals";
 
-const MenuCards = ({ data }) => {
+const MenuCards = ({ data, action }) => {
     return (
         <Card className="text-center">
             <Card.Header><h2>{data.tipo_menu.menu}</h2></Card.Header>
@@ -15,7 +15,7 @@ const MenuCards = ({ data }) => {
                     <li><strong>Jugo </strong>: {data.jugo}</li>
                     <li><strong>Postre</strong> : {data.postre}</li>
                 </ul>
-                <Button variant="primary">Seleccionar</Button>
+                {action === 'dashboard' ? <MenuModal tittle={data.tipo_menu.menu} menuId={data.id_menu} /> : null}
             </Card.Body>
             <Card.Footer className="text-muted"></Card.Footer>
         </Card>

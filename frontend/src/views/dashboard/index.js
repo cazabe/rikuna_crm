@@ -7,6 +7,7 @@ import Order from './orders/index.js';
 import rikuna from '../../Assets/rikunalogo.jpeg'
 import './dashboard.css';
 import Income from './Income/index.js';
+import Menu from './menu/index.js';
 
 const Dashboard = () => {
     const userContext = useCentralContext();
@@ -123,6 +124,15 @@ const Dashboard = () => {
 
                                 <li className="sidebar-dropdown">
                                     <span style={{ cursor: "pointer" }}>
+                                        <Link className="menu-option-text" to="/dashboard/menu" >
+                                            <i className="fa fa-info"></i>
+                                            Menu
+                                        </Link>
+                                    </span>
+                                </li>
+
+                                <li className="sidebar-dropdown">
+                                    <span style={{ cursor: "pointer" }}>
                                         <Link className="menu-option-text" to="/dashboard/order" >
                                             <i className="fa fa-info"></i>
                                             Ordenes
@@ -164,6 +174,9 @@ const Dashboard = () => {
                         </Routes>
                         <Routes>
                             <Route path="/income" element={<Income />} />
+                        </Routes>
+                        <Routes>
+                            <Route path="/menu" element={<Menu />} />
                         </Routes>
                     </div>
                 </main>

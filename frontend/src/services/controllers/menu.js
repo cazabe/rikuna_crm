@@ -18,7 +18,16 @@ const _getTipoMenu = async () => {
     return resp.data.data
 }
 
+const _createMenu = async (data, id) => {
+    const resp = await api.put(`/menu/${id}`, data, { headers: headers() });
+    if (resp && resp.status !== 200) {
+        throw new Error("ERROR AL ACTAULIZAR EL MENU");
+    }
+    return true
+}
+
 export {
     _getMenu,
-    _getTipoMenu
+    _getTipoMenu,
+    _createMenu
 }
