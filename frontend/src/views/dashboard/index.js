@@ -13,6 +13,11 @@ const Dashboard = () => {
     const userContext = useCentralContext();
     const navigate = useNavigate();
 
+    const closeSession = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
+
     //check if user has permissions and has a valid token
     const verifyToken = useCallback(async () => {
         try {
@@ -155,7 +160,7 @@ const Dashboard = () => {
                     <div className="sidebar-footer pl-2">
                         <div className="text-center">
                             <button
-                                onClick={console.log('Cerrar sesion')}
+                                onClick={closeSession}
                                 style={{ cursor: "pointer" }}
                                 className="btonexit bton-sm"
                             >

@@ -17,8 +17,8 @@ const _postOrder = async (fullName, quantity, menuType, comentario) => {
 }
 
 
-const _gettOrder = async () => {
-    const resp = await api.get('/order', { headers: headers() })
+const _gettOrder = async (action) => {
+    const resp = await api.get(`order?search=${action}`, { headers: headers() })
     if (resp.status === 200) {
         return resp;
     } else {
