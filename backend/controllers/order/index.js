@@ -1,6 +1,6 @@
 const { sequelize } = require("../../models/sequelize");
 const { Op } = require("sequelize");
-const { getFullDateWithTime } = require("../../utils/dates");
+const { getFullDateWithTime, getFullDate } = require("../../utils/dates");
 const { orden, tipo_menu } = sequelize.models;
 const { addIngress } = require("../ingress");
 
@@ -53,11 +53,42 @@ const CreateOrder = async (req, res) => {
 };
 
 const ReadOrder = async (req, res) => {
+  let ordenData;
+  const { search } = req.query;
+  let dateInicio = "00:00:00";
+  let dateFin = "23:59:59";
+  // console.log("Fecha inicio ", getFullDate(dateInicio));
+  // console.log("Fecha fin", getFullDate(dateFin));
   try {
-    const ordenData = await orden.findAll({
-      include: { model: tipo_menu, as: "tipo_menu", where: { estado: "A" } },
-      order: [["created", "DESC"]],
-    });
+    if (search == 'pendiente') {
+      ordenData = await orden.findAll({
+        include: { model: tipo_menu, as: "tipo_menu", where: { estado: "A" } },
+        where: { hora_salida: null },
+        order: [["created", "DESC"]],
+      });
+    } else if (search == 'enEntrega') {
+      ordenData = await orden.findAll({
+        include: { model: tipo_menu, as: "tipo_menu", where: { estado: "A" } },
+        where: { estado: 0 },
+        order: [["created", "DESC"]],
+      });
+    } else if (search == 'entregado') {
+      ordenData = await orden.findAll({
+        include: { model: tipo_menu, as: "tipo_menu", where: { estado: "A" } },
+        where: { estado: 1 },
+        order: [["created", "DESC"]],
+      });
+    } else {
+      ordenData = await orden.findAll({
+        include: { model: tipo_menu, as: "tipo_menu", where: { estado: "A" } },
+        where: {
+          created: {
+            [Op.between]: [getFullDate(dateInicio), getFullDate(dateFin)],
+          },
+        },
+        order: [["created", "DESC"]],
+      });
+    }
     if (!ordenData) {
       return res.status(400).end();
     }
@@ -87,7 +118,6 @@ const UpdateOrder = async (req, res) => {
       orderData.estado = 1;
       orderData.hora_entrega = getFullDateWithTime();
     }
-
     await orderData.save();
 
     return res.status(200).end();

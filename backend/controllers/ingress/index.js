@@ -34,7 +34,10 @@ async function addIngress(nombre, total) {
 
 const getIncome = async (req, res) => {
   try {
-    const resp = await ingreso.findAll();
+    const resp = await ingreso.findAll({
+      order: [["created", "DESC"]],
+      limit: 30
+    });
     if (!resp) {
       return res.status(400).end();
     }
