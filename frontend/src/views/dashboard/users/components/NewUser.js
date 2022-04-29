@@ -38,7 +38,7 @@ export const NewUser = ({ close }) => {
     <>
       <Container>
         <Form onSubmit={submit}>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
             <Form.Control
               onChange={(e) => setUserName(e.target.value)}
@@ -46,7 +46,7 @@ export const NewUser = ({ close }) => {
               placeholder="Ingrese usuario"
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -54,7 +54,7 @@ export const NewUser = ({ close }) => {
               onChange={(e) => setPasword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Correo</Form.Label>
             <Form.Control
               onChange={(e) => setCorreo(e.target.value)}
@@ -75,7 +75,14 @@ export const NewUser = ({ close }) => {
               })}
             </Form.Select>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={close}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={() => {
+              close();
+              window.location.reload();
+            }}
+          >
             Guardar
           </Button>
         </Form>

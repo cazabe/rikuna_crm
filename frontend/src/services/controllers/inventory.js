@@ -10,4 +10,18 @@ const _getInv = async () => {
   }
 };
 
-export { _getInv };
+const _createInv = async (producto, cantidad, descripcion) => {
+  const data = {
+    producto: producto,
+    cantidad: cantidad,
+    descripcion: descripcion,
+  };
+  const resp = await api.post("/inventory/product", data, {
+    headers: headers(),
+  });
+  if (resp && resp.status !== 200) {
+    throw new Error("Error al crear usuario");
+  }
+};
+
+export { _getInv, _createInv };

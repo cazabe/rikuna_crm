@@ -36,7 +36,14 @@ export const NewMenu = ({ close }) => {
               placeholder="Precio del Menu"
             ></Form.Control>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={close}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={() => {
+              window.location.reload();
+              close();
+            }}
+          >
             Guardar
           </Button>
         </Form>

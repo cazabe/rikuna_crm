@@ -18,8 +18,8 @@ const Users = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleRegisterClose = () => setShowRegister(false);
-  const handleEraserClose = () => setShowEraser(false);
   const handleRegister = () => setShowRegister(true);
+  const handleEraserClose = () => setShowEraser(false);
   const handleEraser = () => setShowEraser(true);
 
   const getUsers = async () => {
@@ -77,7 +77,7 @@ const Users = () => {
       {/* Modal de Eliminar */}
       <Modal show={showEraser} onHide={handleEraserClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Eliminar Usuario</Modal.Title>
+          <Modal.Title>Eliminar </Modal.Title>
         </Modal.Header>
         <Modal.Body>Desea eliminar el Usuario?</Modal.Body>
         <Modal.Footer>
@@ -89,6 +89,7 @@ const Users = () => {
             onClick={() => {
               deleteUser();
               handleEraserClose();
+              window.location.reload();
             }}
           >
             Eliminar
@@ -132,6 +133,7 @@ const Users = () => {
                         onClick={() => {
                           setRegisterId(item.user_id);
                           handleShow();
+                          window.location.reload();
                         }}
                       >
                         <FaEdit />
@@ -142,6 +144,7 @@ const Users = () => {
                         onClick={() => {
                           setRegisterId(item.user_id);
                           handleEraser();
+                          window.location.reload();
                         }}
                       >
                         <FaEraser />

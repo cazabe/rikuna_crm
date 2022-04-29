@@ -80,7 +80,7 @@ export const EditUser = ({ id }) => {
     <>
       <Container>
         <Form onSubmit={submit}>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
             <Form.Control
               onChange={(e) => setUserName(e.target.value)}
@@ -89,7 +89,7 @@ export const EditUser = ({ id }) => {
               defaultValue={data.person.username}
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -97,7 +97,7 @@ export const EditUser = ({ id }) => {
               onChange={(e) => setPasword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Correo</Form.Label>
             <Form.Control
               onChange={(e) => setCorreo(e.target.value)}
