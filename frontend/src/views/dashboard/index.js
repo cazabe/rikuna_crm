@@ -123,9 +123,6 @@ const Dashboard = () => {
 
             <div className="sidebar-menu">
               <ul>
-                <li className="header-menu">
-                  <span style={{ fontSize: "20px" }}>General</span>
-                </li>
 
                 {/*Ejemplo de dropdown */}
 
@@ -218,9 +215,17 @@ const Dashboard = () => {
               <Route path="/menu" element={<Menu />} />
             </Routes>
 
-            <Route path="/users" element={<Users />} />
-            <Route path="/tipo/menu" element={<TipoMenu />} />
-            <Route path="/inventory" element={<Inventory />} />
+            <Routes>
+              <Route path="/users" element={<Users />} />
+            </Routes>
+
+            <Routes>
+              <Route path="/tipo/menu" element={<TipoMenu />} />
+            </Routes>
+
+            <Routes>
+              <Route path="/inventory" element={<Inventory />} />
+            </Routes>
 
           </div>
         </main>
