@@ -133,7 +133,6 @@ const Users = () => {
                         onClick={() => {
                           setRegisterId(item.user_id);
                           handleShow();
-                          window.location.reload();
                         }}
                       >
                         <FaEdit />

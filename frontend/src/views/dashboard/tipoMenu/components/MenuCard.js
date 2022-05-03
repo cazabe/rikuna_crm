@@ -23,6 +23,7 @@ const MenuCard = ({ data }) => {
       if (resp && resp.status !== 200) {
         return "Error";
       }
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

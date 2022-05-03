@@ -8,15 +8,18 @@ import { _createUser } from "../../../../services/controllers/user";
 import { _getRol } from "../../../../services/controllers/user";
 
 export const EditUser = ({ id }) => {
-  const [data, setData] = useState({ person: {} });
+  const [rolInfo, setRolInfo] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [password, setPasword] = useState("");
+  const [rolUser, setUserRol] = useState("");
 
   const getUsers = useCallback(async () => {
     try {
       const resp = await api.get(`/user/${id}`, { headers: headers() });
       if (resp.status === 200) {
-        setData(() => ({
-          person: resp.data.data,
-        }));
+        setUserName(resp.data.data[0].username);
+        setCorreo(resp.data.data[0].correo);
       } else {
         alert("No se encuentra");
       }
@@ -24,14 +27,6 @@ export const EditUser = ({ id }) => {
       console.log(error);
     }
   }, [id]);
-
-  const [rolInfo, setRolInfo] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [password, setPasword] = useState("");
-  const [rolUser, setUserRol] = useState();
-  // const [users, setUsers] = useState({ person: {} });
-  // // const [value, setValue] = useState([]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -55,51 +50,32 @@ export const EditUser = ({ id }) => {
     getUsers();
     getRol();
   }, [getRol, getUsers]);
-  // const getUsers = async () => {
-  //   try {
-  //     const resp = await _getUser();
-  //     if (resp.status === 200) {
-  //       setUsers(() => ({
-  //         person: resp.data.data,
-  //       }));
-  //     } else {
-  //       alert("No se econtro");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getRol();
-  //   getUsers();
-  // }, [getRol]);
-
-  // // setValue("nombre", users.data.username ? users.data.username : "");
   return (
     <>
       <Container>
         <Form onSubmit={submit}>
           <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Usuario</Form.Label>
             <Form.Control
               onChange={(e) => setUserName(e.target.value)}
               type="nombre"
               placeholder="Ingrese usuario"
-              defaultValue={data.person.username}
+              value={userName}
             ></Form.Control>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Contraseña</Form.Label>
             <Form.Control
               type="password"
               placeholder="Ingrese password"
+              value={password}
               onChange={(e) => setPasword(e.target.value)}
             ></Form.Control>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Correo</Form.Label>
             <Form.Control
+              value={correo}
               onChange={(e) => setCorreo(e.target.value)}
               type="email"
               placeholder="Ingrese Email"

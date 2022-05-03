@@ -30,7 +30,7 @@ const Menu = () => {
                         {menuData.length > 0 ?
                             menuData.map((menu) => {
                                 return (
-                                    <Col md='4' xs='12' key={menu.id_menu}><MenuCards data={menu} action={'dashboard'} /></Col>
+                                    <Col className="mt-4" md='4' xs='12' key={menu.id_menu}><MenuCards data={menu} action={'dashboard'} /></Col>
                                 )
                             })
                             :
