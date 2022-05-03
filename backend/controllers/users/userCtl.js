@@ -43,8 +43,20 @@ const CreateUser = async (req, res) => {
 };
 
 const ReadUsers = async (req, res) => {
+  const { id } = req.params;
+  let usersdata;
   try {
-    const usersdata = await users.findAll({
+    if (id) {
+      usersdata = await users.findAll({
+        attributes: { exclude: ["password"] },
+        where: { estado: "A", user_id: id },
+      });
+      if (!usersdata) {
+        return res.status(400).end();
+      }
+      return res.status(200).json({ data: usersdata });
+    }
+    usersdata = await users.findAll({
       attributes: { exclude: ["password"] },
       where: { estado: "A" },
     });
