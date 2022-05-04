@@ -23,7 +23,7 @@ const Clientorder = () => {
             const data = await _getMenu();
             setMenuData(data);
         } catch (error) {
-            console.log(error);
+            alert('Error de servidor, intente de nuevo por favor');
         }
     }, []);
 
@@ -32,7 +32,7 @@ const Clientorder = () => {
             const data = await _getTipoMenu();
             setMenuDataType(data);
         } catch (error) {
-            console.log(error);
+            alert('Error de servidor, intente de nuevo por favor');
         }
     }, []);
 
@@ -51,7 +51,8 @@ const Clientorder = () => {
                 alert('error al enviar el pedido, por favor intente de nuevo');
             }
         } catch (error) {
-            console.log(error);
+            alert('Error de servidor, intente de nuevo por favor');
+
         }
     }
 
